@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | LingapAI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #F7F5F2;
+            color: #24384A;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: #EFEDEA;
+            border-bottom: 1px solid #ddd9d5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #245B8F;
+        }
+
+        .logo span {
+            color: #D98BA5;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome {
+            color: #667784;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #245B8F;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #183B59;
+        }
+
+        /* ================= LAYOUT ================= */
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 235px;
+            background: #183B59;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            color: #b9c8d3;
+            margin: 5px 12px 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #dce7ee;
+            padding: 13px 15px;
+            border-radius: 9px;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #245B8F;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            padding: 35px;
+            max-width: 1400px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            color: #183B59;
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #71808A;
+            font-size: 15px;
+        }
+
+        /* ================= SUMMARY CARDS ================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: #EFEDEA;
+            border: 1px solid #ddd9d5;
+            border-radius: 15px;
+            padding: 22px;
+        }
+
+        .summary-card .label {
+            color: #71808A;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .number {
+            color: #183B59;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* ================= CONTENT GRID ================= */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            background: #EFEDEA;
+            border: 1px solid #ddd9d5;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 22px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .card-header h2 {
+            color: #183B59;
+            font-size: 19px;
+        }
+
+        .view-link {
+            color: #245B8F;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= APPLICATION ================= */
+
+        .application-box {
+            border: 1px solid #ddd9d5;
+            background: #F7F5F2;
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .application-id {
+            color: #245B8F;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .application-title {
+            color: #183B59;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .application-info {
+            color: #667784;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #F3DCE4;
+            color: #8D4E66;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .no-application {
+            text-align: center;
+            padding: 30px 10px;
+            color: #71808A;
+        }
+
+        /* ================= AI CHECK ================= */
+
+        .ai-box {
+            background: #F3DCE4;
+            border: 1px solid #D98BA5;
+            border-radius: 13px;
+            padding: 18px;
+        }
+
+        .ai-box h3 {
+            color: #183B59;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .ai-box p {
+            color: #667784;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .ai-button {
+            display: inline-block;
+            margin-top: 14px;
+            background: #245B8F;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .ai-button:hover {
+            background: #183B59;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-action {
+            text-decoration: none;
+            background: #F7F5F2;
+            border: 1px solid #ddd9d5;
+            border-radius: 12px;
+            padding: 17px;
+            color: #183B59;
+            transition: 0.2s;
+        }
+
+        .quick-action:hover {
+            border-color: #245B8F;
+            transform: translateY(-2px);
+        }
+
+        .quick-action-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .quick-action-text {
+            color: #71808A;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* ================= QR CARD ================= */
+
+        .qr-card {
+            display: none;
+            align-items: center;
+            gap: 18px;
+            background: #F3DCE4;
+            border: 1px solid #D98BA5;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 22px;
+        }
+
+        .qr-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #245B8F;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .qr-info {
+            flex: 1;
+        }
+
+        .qr-info h3 {
+            color: #183B59;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .qr-info p {
+            color: #667784;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .qr-button {
+            background: #245B8F;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .qr-button:hover {
+            background: #183B59;
+        }
+
+        /* ================= NOTIFICATION ================= */
+
+        .notification {
+            border-bottom: 1px solid #ddd9d5;
+            padding: 13px 0;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification-title {
+            color: #183B59;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .notification-text {
+            color: #71808A;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .notification-date {
+            color: #9a9a9a;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .empty-notification {
+            color: #71808A;
+            font-size: 13px;
+            padding: 15px 0;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .welcome {
+                display: none;
+            }
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                padding: 25px 18px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sidebar-title {
+                display: none;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                padding: 9px 11px;
+                margin: 2px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .qr-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .qr-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Lingap<span>AI</span>
+        </div>
+
+        <div class="nav-right">
+            <div class="welcome">
+                Welcome, Solo Parent
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </nav>
+
+
+    <!-- ================= LAYOUT ================= -->
+
+    <div class="layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Menu
+            </div>
+
+            <a href="dashboard.html" class="active">
+                Dashboard
+            </a>
+
+            <a href="apply.html">
+                Apply for Assistance
+            </a>
+
+            <a href="tracking.html">
+                Track Application
+            </a>
+
+            <a href="notifications.html">
+                Notifications
+            </a>
+
+            <a href="schedule.html">
+                Schedule
+            </a>
+
+            <a href="qr.html">
+                Claim QR Code
+            </a>
+
+            <a href="profile.html">
+                My Profile
+            </a>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main">
+
+            <div class="page-header">
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome to your LingapAI Solo Parent Assistance Portal.
+                </p>
+
+            </div>
+
+
+            <!-- ================= SUMMARY ================= -->
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <div class="label">
+                        Total Applications
+                    </div>
+
+                    <div class="number" id="totalApplications">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="label">
+                        Pending
+                    </div>
+
+                    <div class="number" id="pendingApplications">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="label">
+                        Approved
+                    </div>
+
+                    <div class="number" id="approvedApplications">
+                        0
+                    </div>
+                </div>
+
+
+                <div class="summary-card">
+                    <div class="label">
+                        Claimed
+                    </div>
+
+                    <div class="number" id="claimedApplications">
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= QR READY CARD ================= -->
+
+            <div class="qr-card" id="qrCard">
+
+                <div class="qr-icon">
+                    QR
+                </div>
+
+                <div class="qr-info">
+
+                    <h3>
+                        Your Claim QR Code is Ready
+                    </h3>
+
+                    <p>
+                        Your application has been scheduled.
+                        Show your QR code to the LGU when claiming your assistance.
+                    </p>
+
+                </div>
+
+                <a href="qr.html" class="qr-button">
+                    View QR Code
+                </a>
+
+            </div>
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <div class="content-grid">
+
+                <!-- LEFT COLUMN -->
+
+                <div>
+
+                    <!-- LATEST APPLICATION -->
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <h2>
+                                Latest Application
+                            </h2>
+
+                            <a href="tracking.html" class="view-link">
+                                View All
+                            </a>
+
+                        </div>
+
+                        <div id="latestApplication">
+
+                            <div class="no-application">
+                                No application submitted yet.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AI PRE-CHECK -->
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <h2>
+                                AI-Assisted Pre-Check
+                            </h2>
+
+                        </div>
+
+                        <div class="ai-box">
+
+                            <h3>
+                                Before You Submit
+                            </h3>
+
+                            <p>
+                                LingapAI can perform an AI-assisted pre-check
+                                of your application requirements before the LGU
+                                reviews your application.
+                            </p>
+
+                            <a href="apply.html" class="ai-button">
+                                Start Application
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT COLUMN -->
+
+                <div>
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <h2>
+                                Quick Actions
+                            </h2>
+
+                        </div>
+
+                        <div class="quick-actions">
+
+                            <a href="apply.html" class="quick-action">
+
+                                <div class="quick-action-title">
+                                    Apply
+                                </div>
+
+                                <div class="quick-action-text">
+                                    Submit a new solo parent assistance application.
+                                </div>
+
+                            </a>
+
+
+                            <a href="tracking.html" class="quick-action">
+
+                                <div class="quick-action-title">
+                                    Track
+                                </div>
+
+                                <div class="quick-action-text">
+                                    Check the current status of your application.
+                                </div>
+
+                            </a>
+
+
+                            <a href="schedule.html" class="quick-action">
+
+                                <div class="quick-action-title">
+                                    Schedule
+                                </div>
+
+                                <div class="quick-action-text">
+                                    View your assigned claiming schedule.
+                                </div>
+
+                            </a>
+
+
+                            <a href="qr.html" class="quick-action">
+
+                                <div class="quick-action-title">
+                                    Claim QR
+                                </div>
+
+                                <div class="quick-action-text">
+                                    View your QR code when it becomes available.
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NOTIFICATIONS -->
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <h2>
+                                Recent Notifications
+                            </h2>
+
+                            <a href="notifications.html" class="view-link">
+                                View All
+                            </a>
+
+                        </div>
+
+                        <div id="recentNotifications">
+
+                            <div class="empty-notification">
+                                No notifications yet.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= APPLICATION DATA ================= */
+
+        const applications =
+            JSON.parse(
+                localStorage.getItem("lingapaiApplications")
+            ) || [];
+
+
+        /* ================= SUMMARY COUNTS ================= */
+
+        const totalApplications =
+            applications.length;
+
+        const pendingApplications =
+            applications.filter(app =>
+                app.status === "Pending" ||
+                app.status === "For Review"
+            ).length;
+
+        const approvedApplications =
+            applications.filter(app =>
+                app.status === "Approved" ||
+                app.status === "Scheduled" ||
+                app.status === "Ready for Claiming"
+            ).length;
+
+        const claimedApplications =
+            applications.filter(app =>
+                app.status === "Claimed"
+            ).length;
+
+
+        document.getElementById("totalApplications")
+            .textContent = totalApplications;
+
+        document.getElementById("pendingApplications")
+            .textContent = pendingApplications;
+
+        document.getElementById("approvedApplications")
+            .textContent = approvedApplications;
+
+        document.getElementById("claimedApplications")
+            .textContent = claimedApplications;
+
+
+        /* ================= LATEST APPLICATION ================= */
+
+        const latestApplicationContainer =
+            document.getElementById("latestApplication");
+
+
+        if (applications.length > 0) {
+
+            const latestApplication =
+                applications[applications.length - 1];
+
+            const applicationId =
+                latestApplication.applicationId ||
+                latestApplication.application_id ||
+                "N/A";
+
+            const assistanceType =
+                latestApplication.assistanceType ||
+                latestApplication.assistance_type ||
+                "Assistance";
+
+            const barangay =
+                latestApplication.barangay ||
+                "Not specified";
+
+            const status =
+                latestApplication.status ||
+                "Pending";
+
+            const submittedAt =
+                latestApplication.submittedAt ||
+                latestApplication.submitted_at ||
+                "Recently";
+
+
+            latestApplicationContainer.innerHTML = `
+
+                <div class="application-box">
+
+                    <div class="application-id">
+                        Application ID: ${applicationId}
+                    </div>
+
+                    <div class="application-title">
+                        ${assistanceType}
+                    </div>
+
+                    <div class="application-info">
+
+                        <strong>Barangay:</strong>
+                        ${barangay}
+                        <br>
+
+                        <strong>Submitted:</strong>
+                        ${submittedAt}
+
+                    </div>
+
+                    <div class="status">
+                        ${status}
+                    </div>
+
+                </div>
+
+            `;
+
+
+            /* ================= QR AVAILABILITY ================= */
+
+            const qrCard =
+                document.getElementById("qrCard");
+
+
+            /*
+                QR CODE IS ONLY AVAILABLE WHEN:
+                1. Application is Scheduled
+                OR
+                2. Application is Ready for Claiming
+            */
+
+            if (
+                status === "Scheduled" ||
+                status === "Ready for Claiming"
+            ) {
+
+                qrCard.style.display = "flex";
+
+            } else {
+
+                qrCard.style.display = "none";
+
+            }
+
+        }
+
+
+        /* ================= NOTIFICATIONS ================= */
+
+        const notifications =
+            JSON.parse(
+                localStorage.getItem("lingapaiNotifications")
+            ) || [];
+
+
+        const notificationContainer =
+            document.getElementById("recentNotifications");
+
+
+        if (notifications.length > 0) {
+
+            const recentNotifications =
+                notifications.slice(-3).reverse();
+
+
+            notificationContainer.innerHTML = "";
+
+
+            recentNotifications.forEach(notification => {
+
+                const title =
+                    notification.title ||
+                    "Notification";
+
+                const message =
+                    notification.message ||
+                    notification.text ||
+                    "";
+
+                const date =
+                    notification.date ||
+                    notification.createdAt ||
+                    "";
+
+
+                const notificationElement =
+                    document.createElement("div");
+
+                notificationElement.className =
+                    "notification";
+
+
+                notificationElement.innerHTML = `
+
+                    <div class="notification-title">
+                        ${title}
+                    </div>
+
+                    <div class="notification-text">
+                        ${message}
+                    </div>
+
+                    <div class="notification-date">
+                        ${date}
+                    </div>
+
+                `;
+
+
+                notificationContainer.appendChild(
+                    notificationElement
+                );
+
+            });
+
+        }
+
+
+        /* ================= LOGOUT ================= */
+
+        function logout() {
+
+            localStorage.removeItem("soloParentLoggedIn");
+
+            localStorage.removeItem("loggedInUser");
+
+            window.location.href = "login.html";
+
+        }
+
+    </script>
+
+</body>
+</html>

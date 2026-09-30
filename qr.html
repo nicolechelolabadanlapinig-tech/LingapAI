@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My QR Code | LingapAI</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#F7F5F2;
+    color:#24384A;
+}
+
+/* NAVBAR */
+
+.navbar{
+    height:70px;
+    background:#EFEDEA;
+    border-bottom:1px solid #DDD9D5;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 7%;
+}
+
+.logo{
+    color:#183B59;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#526674;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:#245B8F;
+}
+
+
+/* MAIN */
+
+.main{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 25px;
+}
+
+
+/* BACK */
+
+.back{
+    display:inline-block;
+    margin-bottom:20px;
+
+    color:#245B8F;
+    text-decoration:none;
+
+    font-size:13px;
+}
+
+.back:hover{
+    text-decoration:underline;
+}
+
+
+/* CARD */
+
+.qr-card{
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+    border-radius:18px;
+
+    max-width:520px;
+    margin:0 auto;
+
+    padding:35px;
+    text-align:center;
+
+    box-shadow:0 5px 18px rgba(24,59,89,.06);
+}
+
+.qr-card h1{
+    color:#183B59;
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#71808A;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+
+/* QR */
+
+.qr-wrapper{
+    width:250px;
+    height:250px;
+
+    background:#F7F5F2;
+    border:1px solid #DDD9D5;
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin:0 auto 22px;
+}
+
+#qrcode{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#qrcode img,
+#qrcode canvas{
+    max-width:210px;
+    max-height:210px;
+}
+
+
+/* APPLICATION ID */
+
+.application-box{
+    background:#F7F5F2;
+    border:1px solid #DDD9D5;
+    border-radius:10px;
+
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.application-box span{
+    display:block;
+    color:#71808A;
+    font-size:10px;
+    margin-bottom:7px;
+    letter-spacing:.5px;
+}
+
+.application-box strong{
+    color:#183B59;
+    font-size:17px;
+    word-break:break-word;
+}
+
+
+/* STATUS */
+
+.status{
+    display:inline-block;
+
+    background:#E4F0E7;
+    color:#4D7658;
+
+    padding:7px 13px;
+    border-radius:20px;
+
+    font-size:11px;
+    font-weight:bold;
+
+    margin-bottom:22px;
+}
+
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+button{
+    border:none;
+    border-radius:8px;
+
+    padding:12px 20px;
+
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.refresh-btn{
+    background:#245B8F;
+    color:white;
+}
+
+.refresh-btn:hover{
+    background:#183B59;
+}
+
+.print-btn{
+    background:#F3DCE4;
+    color:#183B59;
+}
+
+.print-btn:hover{
+    background:#D98BA5;
+    color:white;
+}
+
+
+/* INFO */
+
+.info{
+    margin-top:20px;
+
+    background:#F3DCE4;
+    border-radius:11px;
+
+    padding:17px;
+
+    text-align:left;
+}
+
+.info h3{
+    color:#183B59;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.info p{
+    color:#5F707B;
+    font-size:12px;
+    line-height:1.6;
+}
+
+
+/* EMPTY */
+
+.empty{
+    display:none;
+
+    text-align:center;
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+
+    border-radius:15px;
+    padding:35px;
+}
+
+.empty h2{
+    color:#183B59;
+    margin-bottom:8px;
+}
+
+.empty p{
+    color:#71808A;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.empty a{
+    display:inline-block;
+
+    background:#245B8F;
+    color:white;
+
+    text-decoration:none;
+
+    padding:11px 18px;
+    border-radius:8px;
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:#71808A;
+    font-size:11px;
+    margin-top:35px;
+}
+
+
+/* PRINT */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .navbar,
+    .back,
+    .buttons,
+    .info,
+    .footer{
+        display:none;
+    }
+
+    .main{
+        margin:0;
+        padding:0;
+    }
+
+    .qr-card{
+        box-shadow:none;
+        border:none;
+        background:white;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:12px;
+    }
+
+    .nav-links a{
+        font-size:11px;
+    }
+
+    .qr-card{
+        padding:25px 18px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    button{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        LingapAI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="tracking.html">
+            Track Application
+        </a>
+
+        <a href="notifications.html">
+            Notifications
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="main">
+
+    <a
+        href="dashboard.html"
+        class="back"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+    <!-- QR CARD -->
+
+    <div
+        class="qr-card"
+        id="qrCard"
+    >
+
+        <h1>
+            Your Claim QR Code
+        </h1>
+
+        <p class="subtitle">
+            Present this QR code to the authorized LGU
+            personnel when claiming your approved assistance.
+        </p>
+
+
+        <span class="status">
+            READY FOR CLAIMING
+        </span>
+
+
+        <div class="qr-wrapper">
+
+            <div id="qrcode"></div>
+
+        </div>
+
+
+        <div class="application-box">
+
+            <span>
+                APPLICATION ID
+            </span>
+
+            <strong id="applicationId">
+                Loading...
+            </strong>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button
+                class="refresh-btn"
+                onclick="generateQR()"
+            >
+                ↻ Refresh QR
+            </button>
+
+            <button
+                class="print-btn"
+                onclick="window.print()"
+            >
+                🖨 Print QR
+            </button>
+
+        </div>
+
+
+        <div class="info">
+
+            <h3>
+                Important
+            </h3>
+
+            <p>
+                Keep this QR code private and present it only
+                to authorized LGU personnel. The QR code contains
+                only your LingapAI application reference and does
+                not contain your personal information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- NO APPLICATION -->
+
+    <div
+        class="empty"
+        id="emptyState"
+    >
+
+        <h2>
+            No Application Found
+        </h2>
+
+        <p>
+            You need to submit an application before a
+            claim QR code can be generated.
+        </p>
+
+        <a href="apply.html">
+            Apply for Assistance
+        </a>
+
+    </div>
+
+
+    <div class="footer">
+        LingapAI | Team VIZIONEX
+    </div>
+
+</main>
+
+
+<script>
+
+/*
+    GET APPLICATIONS
+*/
+
+function getApplications(){
+
+    return JSON.parse(
+
+        localStorage.getItem(
+            "lingapaiApplications"
+        ) || "[]"
+
+    );
+
+}
+
+
+/*
+    GET THE MOST RECENT APPLICATION
+*/
+
+function getLatestApplication(){
+
+    const applications =
+        getApplications();
+
+
+    if(applications.length === 0){
+
+        return null;
+
+    }
+
+
+    /*
+        Sort using submittedAt when available.
+        Otherwise use the last saved application.
+    */
+
+    applications.sort(
+        (a,b) => {
+
+            const dateA =
+                new Date(
+                    a.submittedAt ||
+                    a.submitted_at ||
+                    0
+                );
+
+            const dateB =
+                new Date(
+                    b.submittedAt ||
+                    b.submitted_at ||
+                    0
+                );
+
+            return dateB - dateA;
+
+        }
+    );
+
+
+    return applications[0];
+
+}
+
+
+/*
+    GENERATE QR
+*/
+
+function generateQR(){
+
+    const application =
+        getLatestApplication();
+
+
+    if(!application){
+
+        document.getElementById(
+            "qrCard"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "emptyState"
+        ).style.display = "block";
+
+
+        return;
+
+    }
+
+
+    /*
+        SUPPORT BOTH:
+        applicationId
+        application_id
+    */
+
+    const applicationId =
+        application.applicationId ||
+        application.application_id;
+
+
+    if(!applicationId){
+
+        document.getElementById(
+            "qrCard"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "emptyState"
+        ).style.display = "block";
+
+
+        return;
+
+    }
+
+
+    /*
+        QR DATA
+
+        IMPORTANT:
+        Only the application reference is stored
+        inside the QR code.
+
+        Example:
+        LINGAPAI|LPA-2026-0001
+    */
+
+    const qrData =
+        "LINGAPAI|" +
+        applicationId;
+
+
+    document.getElementById(
+        "applicationId"
+    ).textContent =
+        applicationId;
+
+
+    const qrContainer =
+        document.getElementById(
+            "qrcode"
+        );
+
+
+    /*
+        CLEAR OLD QR FIRST
+    */
+
+    qrContainer.innerHTML = "";
+
+
+    /*
+        GENERATE NEW QR
+    */
+
+    new QRCode(
+        qrContainer,
+        {
+            text:qrData,
+            width:210,
+            height:210,
+            colorDark:"#183B59",
+            colorLight:"#F7F5F2",
+            correctLevel:QRCode.CorrectLevel.H
+        }
+    );
+
+}
+
+
+/*
+    INITIALIZE
+*/
+
+generateQR();
+
+</script>
+
+</body>
+</html>

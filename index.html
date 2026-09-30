@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LingapAI | Solo Parent Assistance</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #F7F5F2;
+            color: #24384A;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: #EFEDEA;
+            border-bottom: 1px solid #DDD9D5;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #183B59;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4F606C;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #245B8F;
+        }
+
+        .register-btn {
+            background: #D98BA5;
+            color: white !important;
+
+            padding: 10px 18px;
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            max-width: 1150px;
+            margin: auto;
+
+            min-height: 510px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 60px;
+
+            padding: 60px 30px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .small-title {
+            color: #245B8F;
+            font-size: 14px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.1;
+
+            color: #183B59;
+
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #D98BA5;
+        }
+
+        .hero p {
+            max-width: 540px;
+
+            color: #667784;
+
+            font-size: 16px;
+            line-height: 1.7;
+
+            margin-bottom: 28px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            text-decoration: none;
+
+            background: #245B8F;
+            color: white;
+
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background: #183B59;
+        }
+
+        .btn-secondary {
+            text-decoration: none;
+
+            border: 1px solid #245B8F;
+            color: #245B8F;
+
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+        }
+
+        .btn-secondary:hover {
+            background: #F3DCE4;
+        }
+
+
+        /* AI CARD */
+
+        .ai-card {
+            width: 380px;
+
+            background: #EFEDEA;
+
+            border: 1px solid #DDD9D5;
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 12px 30px rgba(24, 59, 89, 0.08);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+        .ai-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            background: #F3DCE4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .ai-header h3 {
+            color: #183B59;
+            font-size: 18px;
+
+            margin-bottom: 4px;
+        }
+
+        .ai-header p {
+            color: #71808A;
+            font-size: 12px;
+        }
+
+        .ai-text {
+            color: #667784;
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+        }
+
+        .ai-check {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #DDD9D5;
+
+            color: #526571;
+
+            font-size: 14px;
+        }
+
+        .ai-check:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 25px;
+            height: 25px;
+
+            border-radius: 50%;
+
+            background: #DCE8F1;
+            color: #245B8F;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* FEATURES */
+
+        .features-section {
+            max-width: 1150px;
+            margin: auto;
+
+            padding: 20px 30px 70px;
+        }
+
+        .section-title {
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            color: #183B59;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: #71808A;
+
+            font-size: 14px;
+        }
+
+        .features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: #EFEDEA;
+
+            border: 1px solid #DDD9D5;
+
+            border-radius: 15px;
+
+            padding: 23px;
+
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 20px rgba(24, 59, 89, 0.07);
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 11px;
+
+            background: #F3DCE4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #183B59;
+
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #71808A;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background: #EFEDEA;
+
+            border-top: 1px solid #DDD9D5;
+
+            text-align: center;
+
+            padding: 22px;
+
+            color: #71808A;
+
+            font-size: 12px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+
+            .hero {
+                flex-direction: column;
+
+                text-align: center;
+
+                padding-top: 45px;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .ai-card {
+                width: 100%;
+                max-width: 380px;
+            }
+
+            .features {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a:first-child {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        LingapAI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="login.html">
+            Login
+        </a>
+
+        <a
+                href="register.html"
+                class="register-btn"
+        >
+            Register
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            SOLO PARENT ASSISTANCE SYSTEM
+        </div>
+
+        <h1>
+            Assistance
+            <span>Made Simple.</span>
+        </h1>
+
+        <p>
+            LingapAI is an AI-powered platform that helps
+            solo parents register, apply for assistance,
+            track their applications, and receive important
+            updates in one convenient place.
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                    href="register.html"
+                    class="btn-primary"
+            >
+                Get Started
+            </a>
+
+            <a
+                    href="login.html"
+                    class="btn-secondary"
+            >
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI CARD -->
+
+    <div class="ai-card">
+
+        <div class="ai-header">
+
+            <div class="ai-icon">
+                ✦
+            </div>
+
+            <div>
+
+                <h3>
+                    AI-Assisted Checking
+                </h3>
+
+                <p>
+                    Preliminary application assessment
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-text">
+
+            LingapAI helps check application information
+            and submitted requirements before the
+            application proceeds to authorized personnel
+            for review.
+
+        </div>
+
+
+        <div class="ai-check">
+
+            <div class="check-icon">
+                ✓
+            </div>
+
+            Information Check
+
+        </div>
+
+
+        <div class="ai-check">
+
+            <div class="check-icon">
+                ✓
+            </div>
+
+            Requirements Check
+
+        </div>
+
+
+        <div class="ai-check">
+
+            <div class="check-icon">
+                ✓
+            </div>
+
+            LGU Review
+
+        </div>
+
+
+        <div class="ai-check">
+
+            <div class="check-icon">
+                ✓
+            </div>
+
+            Application Tracking
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features-section">
+
+
+    <div class="section-title">
+
+        <h2>
+            LingapAI Features
+        </h2>
+
+        <p>
+            Simple tools designed to make assistance
+            applications easier.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📝
+            </div>
+
+            <h3>
+                Easy Registration
+            </h3>
+
+            <p>
+                Register your personal information
+                and create your account.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📋
+            </div>
+
+            <h3>
+                Online Application
+            </h3>
+
+            <p>
+                Apply for available solo parent
+                assistance through the platform.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🔔
+            </div>
+
+            <h3>
+                Notifications
+            </h3>
+
+            <p>
+                Receive updates about your application,
+                schedule, and assistance.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📱
+            </div>
+
+            <h3>
+                QR Claiming
+            </h3>
+
+            <p>
+                Use your QR reference when claiming
+                approved assistance.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <strong>LingapAI</strong>
+    <span> | </span>
+    Team <strong>VIZIONEX</strong>
+
+</footer>
+
+</body>

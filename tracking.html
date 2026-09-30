@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LingapAI - Application Tracking</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{background:#f7f8f9}.tracking-page{max-width:1000px;margin:auto;padding:35px 20px 60px}
+.back-link{color:#427da5;text-decoration:none;font-weight:600}.tracking-header{background:linear-gradient(135deg,#f4e3e9,#e5eef5);border-radius:20px;padding:28px;margin:20px 0}
+.tracking-header h1{margin:0 0 7px;color:#263746}.tracking-header p{color:#5f6d77;margin:0}
+.application-card{background:white;border-radius:18px;padding:25px;margin-bottom:20px;box-shadow:0 5px 20px rgba(38,55,70,.07)}
+.app-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap}
+.app-id{color:#427da5;font-weight:700}.status-pill{display:inline-block;padding:8px 13px;border-radius:999px;background:#f4e3e9;color:#a94c6d;font-size:13px;font-weight:700}
+.details{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.detail{background:#f7f8f9;padding:14px;border-radius:10px}
+.detail strong{display:block;color:#427da5;font-size:12px;margin-bottom:5px}
+.timeline{margin-top:25px}.step{display:flex;gap:15px;position:relative;min-height:70px}
+.step:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;height:calc(100% - 5px);border-left:2px solid #dfe5e9}
+.dot{width:32px;height:32px;min-width:32px;border-radius:50%;display:grid;place-items:center;background:#e7ebee;color:#66747e;font-weight:bold;z-index:1}
+.step.completed .dot{background:#427da5;color:white}.step.current .dot{background:#c45f82;color:white}
+.step h3{margin:3px 0 4px;color:#263746;font-size:16px}.step p{margin:0;color:#74818a;font-size:13px;line-height:1.45}
+.ai-summary{background:#f4e3e9;border-left:4px solid #c45f82;padding:15px;border-radius:9px;margin-top:20px}.empty{text-align:center;padding:45px 20px}
+@media(max-width:700px){.details{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="logo"><span>Lingap</span><strong>AI</strong></div><a href="dashboard.html" class="nav-button">Dashboard</a></nav>
+<main class="tracking-page">
+<a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+<section class="tracking-header"><h1>Application Tracking</h1><p>Follow the progress of your Solo Parent assistance application.</p></section>
+<div id="applications"></div>
+</main>
+<script>
+const apps=JSON.parse(localStorage.getItem("lingapaiApplications")||"[]");
+const container=document.getElementById("applications");
+function progress(status){return {"Pending":1,"For Review":2,"Needs Attention":2,"Needs Correction":2,"Approved":4,"Scheduled":5,"Ready for Claiming":5,"Claimed":6}[status]||1}
+function timeline(status){
+ const p=progress(status);
+ const steps=[
+ ["Application Submitted","Your application was successfully submitted."],
+ ["AI Pre-Check","LingapAI performed a preliminary check of your submitted information."],
+ ["LGU Review","Authorized personnel review your application and documents."],
+ ["Approved","The application is approved by authorized personnel."],
+ ["Scheduled for Claiming","A claiming schedule will be provided when available."],
+ ["Claimed","Assistance has been recorded as claimed."]
+ ];
+ return steps.map((s,i)=>{let n=i+1,state=n<p?"completed":n===p?"current":"";return `<div class="step ${state}"><div class="dot">${n<p?"✓":n}</div><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`}).join("");
+}
+if(!apps.length){
+ container.innerHTML='<section class="application-card empty"><h2>No application yet</h2><p>You have not submitted an assistance application.</p><a href="apply.html" class="primary-button">Apply for Assistance</a></section>';
+}else{
+ [...apps].reverse().forEach(app=>{
+  const status=app.status||"Pending",ai=app.aiResult;
+  const card=document.createElement("section");card.className="application-card";
+  card.innerHTML=`<div class="app-top"><div><h2>${app.assistance||"Assistance Application"}</h2><div class="app-id">${app.id}</div></div><span class="status-pill">${status}</span></div>
+  <div class="details"><div class="detail"><strong>Applicant</strong>${app.fullName||"Not provided"}</div><div class="detail"><strong>Barangay</strong>${app.barangay||"Not provided"}</div><div class="detail"><strong>Date Submitted</strong>${app.submittedAt?new Date(app.submittedAt).toLocaleDateString():"Not available"}</div></div>
+  <div class="timeline">${timeline(status)}</div>
+  <div class="ai-summary"><strong>AI Pre-Check:</strong> ${ai?ai.status+". "+ai.recommendation:"Your preliminary AI analysis has not been recorded yet."}</div>`;
+  container.appendChild(card);
+ });
+}
+</script>
+</body>
+</html>

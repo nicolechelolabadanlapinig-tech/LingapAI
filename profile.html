@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | LingapAI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#F7F5F2;
+    color:#24384A;
+}
+
+.navbar{
+    height:70px;
+    background:#EFEDEA;
+    border-bottom:1px solid #DDD9D5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#183B59;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#4F606C;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:#245B8F;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.header{
+    margin-bottom:25px;
+}
+
+.header h1{
+    color:#183B59;
+    margin-bottom:7px;
+}
+
+.header p{
+    color:#71808A;
+}
+
+.card{
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+    border-radius:16px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    color:#183B59;
+    margin-bottom:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.form-group{
+    margin-bottom:5px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+    color:#183B59;
+    font-size:14px;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:1px solid #C8C4C0;
+    border-radius:9px;
+    background:#F7F5F2;
+    color:#24384A;
+    font-size:14px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#245B8F;
+}
+
+input:disabled{
+    background:#E7E4E0;
+    color:#71808A;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+.save-btn,
+.cancel-btn{
+    padding:12px 22px;
+    border:none;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save-btn{
+    background:#245B8F;
+    color:white;
+}
+
+.save-btn:hover{
+    background:#183B59;
+}
+
+.cancel-btn{
+    background:#D9D5D1;
+    color:#4F606C;
+}
+
+.message{
+    display:none;
+    margin-top:15px;
+    padding:13px;
+    border-radius:9px;
+    background:#E1F0E5;
+    color:#39734A;
+    font-weight:bold;
+}
+
+.account-info{
+    background:#F7F5F2;
+    border-radius:10px;
+    padding:18px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #DDD9D5;
+    font-size:14px;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    color:#71808A;
+}
+
+.info-value{
+    font-weight:bold;
+}
+
+.note{
+    margin-top:15px;
+    padding:15px;
+    background:#F3DCE4;
+    border-left:5px solid #D98BA5;
+    border-radius:9px;
+    color:#4F606C;
+    font-size:13px;
+    line-height:1.5;
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:10px;
+    }
+
+    .nav-links a:nth-child(n+4){
+        display:none;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        LingapAI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="tracking.html">
+            Tracking
+        </a>
+
+        <a href="notifications.html">
+            Notifications
+        </a>
+
+        <a href="schedule.html">
+            Schedule
+        </a>
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            View and update your personal information.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Personal Information
+        </h3>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    First Name
+                </label>
+
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="First name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Last Name
+                </label>
+
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Last name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Birth Date
+                </label>
+
+                <input
+                    type="date"
+                    id="birthDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Contact Number
+                </label>
+
+                <input
+                    type="text"
+                    id="contactNumber"
+                    placeholder="Contact number"
+                >
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Address
+                </label>
+
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Complete address"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Barangay
+                </label>
+
+                <input
+                    type="text"
+                    id="barangay"
+                    placeholder="Barangay"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Solo Parent Category
+                </label>
+
+                <select id="category">
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="Category 1">
+                        Category 1
+                    </option>
+
+                    <option value="Category 2">
+                        Category 2
+                    </option>
+
+                    <option value="Category 3">
+                        Category 3
+                    </option>
+
+                    <option value="Category 4">
+                        Category 4
+                    </option>
+
+                    <option value="Category 5">
+                        Category 5
+                    </option>
+
+                    <option value="Category 6">
+                        Category 6
+                    </option>
+
+                    <option value="Category 7">
+                        Category 7
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="save-btn"
+                onclick="saveProfile()"
+            >
+                Save Changes
+            </button>
+
+            <button
+                class="cancel-btn"
+                onclick="loadProfile()"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message"
+        >
+            Profile successfully updated.
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Account Information
+        </h3>
+
+        <div class="account-info">
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    Account Email
+                </span>
+
+                <span
+                    class="info-value"
+                    id="email"
+                >
+                    ---
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    Application ID
+                </span>
+
+                <span
+                    class="info-value"
+                    id="applicationId"
+                >
+                    ---
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    Application Status
+                </span>
+
+                <span
+                    class="info-value"
+                    id="applicationStatus"
+                >
+                    ---
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="note">
+
+            Your profile information is used to support your
+            solo parent assistance application. In the actual
+            system, personal information should be protected
+            through proper authentication, authorization, and
+            database security.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+    LOAD APPLICATION
+*/
+
+let applications =
+    JSON.parse(
+        localStorage.getItem("lingapaiApplications") || "[]"
+    );
+
+
+let application =
+    applications.length > 0
+    ? applications[applications.length - 1]
+    : null;
+
+
+/*
+    LOAD PROFILE
+*/
+
+function loadProfile(){
+
+    applications =
+        JSON.parse(
+            localStorage.getItem("lingapaiApplications") || "[]"
+        );
+
+
+    application =
+        applications.length > 0
+        ? applications[applications.length - 1]
+        : null;
+
+
+    if(!application){
+
+        clearFields();
+
+        document.getElementById("email")
+            .textContent =
+            "No account data";
+
+        document.getElementById("applicationId")
+            .textContent =
+            "---";
+
+        document.getElementById("applicationStatus")
+            .textContent =
+            "---";
+
+        return;
+    }
+
+
+    document.getElementById("firstName").value =
+        application.firstName || "";
+
+
+    document.getElementById("lastName").value =
+        application.lastName || "";
+
+
+    document.getElementById("birthDate").value =
+        application.birthDate || "";
+
+
+    document.getElementById("contactNumber").value =
+        application.contactNumber || "";
+
+
+    document.getElementById("address").value =
+        application.address || "";
+
+
+    document.getElementById("barangay").value =
+        application.barangay || "";
+
+
+    document.getElementById("category").value =
+        application.category || "";
+
+
+    document.getElementById("email").textContent =
+        localStorage.getItem("soloParentEmail")
+        || application.email
+        || "Not available";
+
+
+    document.getElementById("applicationId").textContent =
+        application.id || "---";
+
+
+    document.getElementById("applicationStatus").textContent =
+        application.status || "Pending";
+
+}
+
+
+/*
+    SAVE PROFILE
+*/
+
+function saveProfile(){
+
+    if(!application){
+
+        alert(
+            "No application profile is available yet."
+        );
+
+        return;
+    }
+
+
+    const firstName =
+        document.getElementById("firstName")
+        .value
+        .trim();
+
+
+    const lastName =
+        document.getElementById("lastName")
+        .value
+        .trim();
+
+
+    const birthDate =
+        document.getElementById("birthDate")
+        .value;
+
+
+    const contactNumber =
+        document.getElementById("contactNumber")
+        .value
+        .trim();
+
+
+    const address =
+        document.getElementById("address")
+        .value
+        .trim();
+
+
+    const barangay =
+        document.getElementById("barangay")
+        .value
+        .trim();
+
+
+    const category =
+        document.getElementById("category")
+        .value;
+
+
+    if(
+        !firstName ||
+        !lastName ||
+        !birthDate ||
+        !contactNumber ||
+        !address ||
+        !barangay ||
+        !category
+    ){
+
+        alert(
+            "Please complete all personal information fields."
+        );
+
+        return;
+    }
+
+
+    const index =
+        applications.findIndex(
+            app => app.id === application.id
+        );
+
+
+    if(index === -1){
+
+        alert(
+            "Application could not be found."
+        );
+
+        return;
+    }
+
+
+    applications[index].firstName =
+        firstName;
+
+
+    applications[index].lastName =
+        lastName;
+
+
+    applications[index].fullName =
+        firstName + " " + lastName;
+
+
+    applications[index].birthDate =
+        birthDate;
+
+
+    applications[index].contactNumber =
+        contactNumber;
+
+
+    applications[index].address =
+        address;
+
+
+    applications[index].barangay =
+        barangay;
+
+
+    applications[index].category =
+        category;
+
+
+    application =
+        applications[index];
+
+
+    localStorage.setItem(
+        "lingapaiApplications",
+        JSON.stringify(applications)
+    );
+
+
+    document.getElementById("applicationStatus")
+        .textContent =
+        application.status || "Pending";
+
+
+    const message =
+        document.getElementById("message");
+
+
+    message.style.display =
+        "block";
+
+
+    setTimeout(() => {
+
+        message.style.display =
+            "none";
+
+    },3000);
+
+}
+
+
+/*
+    CLEAR FIELDS
+*/
+
+function clearFields(){
+
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("birthDate").value = "";
+    document.getElementById("contactNumber").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("barangay").value = "";
+    document.getElementById("category").value = "";
+
+}
+
+
+/*
+    INITIAL LOAD
+*/
+
+loadProfile();
+
+</script>
+
+</body>
+</html>

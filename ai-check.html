@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingapAI - AI Pre-Check</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f8f9;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #c45f82;
+        }
+
+        .logo strong {
+            color: #427da5;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #427da5;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .checking {
+            text-align: center;
+            padding: 25px;
+            background: #f4e3e9;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .checking h2 {
+            color: #a94c6d;
+            margin-bottom: 8px;
+        }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .ready {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+        }
+
+        .attention {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .result h3 {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: #c45f82;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover {
+            background: #a94c6d;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f7f8f9;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">
+            <span>Lingap</span><strong>AI</strong>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>AI Pre-Check</h1>
+            <p class="subtitle">
+                LingapAI is checking your application before it is reviewed by the LGU.
+            </p>
+
+            <div class="checking">
+                <h2>AI-Assisted Checking</h2>
+                <p>Please wait while we check your application...</p>
+            </div>
+
+            <div id="result"></div>
+
+            <div class="note">
+                <strong>Important:</strong> This AI pre-check is only an initial
+                assessment. The final evaluation and approval will still be
+                handled by authorized LGU personnel.
+            </div>
+
+            <a href="dashboard.html" class="button">
+                Go to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const applications =
+            JSON.parse(localStorage.getItem("lingapaiApplications")) || [];
+
+        const resultBox = document.getElementById("result");
+
+        if (applications.length === 0) {
+
+            resultBox.innerHTML = `
+                <div class="result attention">
+                    <h3>No Application Found</h3>
+                    <p>
+                        We could not find a submitted application.
+                        Please return to the application page and try again.
+                    </p>
+                </div>
+            `;
+
+        } else {
+
+            const application =
+                applications[applications.length - 1];
+
+            let issues = [];
+
+            // Check required information
+            if (!application.firstName ||
+                !application.lastName) {
+
+                issues.push("Applicant name is incomplete.");
+            }
+
+            if (!application.contactNumber) {
+
+                issues.push("Contact number is missing.");
+            }
+
+            if (!application.address) {
+
+                issues.push("Address is missing.");
+            }
+
+            if (!application.barangay) {
+
+                issues.push("Barangay is missing.");
+            }
+
+            if (!application.soloParentId) {
+
+                issues.push("Solo Parent ID number is missing.");
+            }
+
+            if (!application.documentProvided) {
+
+                issues.push("Solo Parent ID document was not uploaded.");
+            }
+
+            if (!application.children ||
+                Number(application.children) < 1) {
+
+                issues.push("Number of children must be at least 1.");
+            }
+
+            if (!application.reason ||
+                application.reason.length < 10) {
+
+                issues.push("Please provide a more detailed reason for requesting assistance.");
+            }
+
+            // Save AI result
+            if (issues.length > 0) {
+
+                application.aiResult = "Needs Attention";
+
+                resultBox.innerHTML = `
+                    <div class="result attention">
+
+                        <h3>⚠️ Needs Attention</h3>
+
+                        <p>
+                            The AI pre-check found the following items:
+                        </p>
+
+                        <ul>
+                            ${issues.map(issue => `<li>${issue}</li>`).join("")}
+                        </ul>
+
+                        <p style="margin-top:15px;">
+                            Please review your application before the LGU assessment.
+                        </p>
+
+                    </div>
+                `;
+
+            } else {
+
+                application.aiResult = "Ready for LGU Review";
+
+                resultBox.innerHTML = `
+                    <div class="result ready">
+
+                        <h3>✓ Ready for LGU Review</h3>
+
+                        <p>
+                            Your application passed the initial AI-assisted
+                            pre-check.
+                        </p>
+
+                        <p style="margin-top:10px;">
+                            Your application will proceed to review by
+                            authorized LGU personnel.
+                        </p>
+
+                    </div>
+                `;
+            }
+
+            localStorage.setItem(
+                "lingapaiApplications",
+                JSON.stringify(applications)
+            );
+        }
+
+    </script>
+
+</body>
+</html>

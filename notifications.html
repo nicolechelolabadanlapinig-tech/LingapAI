@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | LingapAI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#F7F5F2;
+    color:#24384A;
+}
+
+.navbar{
+    height:70px;
+    background:#EFEDEA;
+    border-bottom:1px solid #DDD9D5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#183B59;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#4F606C;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:#245B8F;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.header h1{
+    color:#183B59;
+    margin-bottom:6px;
+}
+
+.header p{
+    color:#71808A;
+}
+
+.mark-btn{
+    border:none;
+    background:#245B8F;
+    color:white;
+    padding:11px 16px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.mark-btn:hover{
+    background:#183B59;
+}
+
+.notifications{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.notification{
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+    border-radius:14px;
+    padding:18px;
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
+    cursor:pointer;
+}
+
+.notification:hover{
+    border-color:#C8C4C0;
+}
+
+.notification.unread{
+    border-left:5px solid #D98BA5;
+    background:#F3DCE4;
+}
+
+.icon{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    border-radius:50%;
+    background:#F3DCE4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+}
+
+.notification.unread .icon{
+    background:#EFEDEA;
+}
+
+.notification-content{
+    flex:1;
+}
+
+.notification-title{
+    font-weight:bold;
+    color:#183B59;
+    margin-bottom:6px;
+}
+
+.notification-message{
+    color:#5F707B;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.notification-date{
+    color:#8A959B;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.unread-dot{
+    width:9px;
+    height:9px;
+    background:#D98BA5;
+    border-radius:50%;
+    margin-top:5px;
+}
+
+.empty{
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+    border-radius:15px;
+    padding:50px 25px;
+    text-align:center;
+}
+
+.empty h2{
+    color:#183B59;
+    margin-bottom:10px;
+}
+
+.empty p{
+    color:#71808A;
+    line-height:1.6;
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:10px;
+    }
+
+    .nav-links a:nth-child(n+4){
+        display:none;
+    }
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .mark-btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        LingapAI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="tracking.html">
+            Tracking
+        </a>
+
+        <a href="notifications.html">
+            Notifications
+        </a>
+
+        <a href="schedule.html">
+            Schedule
+        </a>
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                Notifications
+            </h1>
+
+            <p>
+                Stay updated about your assistance application.
+            </p>
+
+        </div>
+
+        <button
+            class="mark-btn"
+            onclick="markAllRead()"
+        >
+            Mark All as Read
+        </button>
+
+    </div>
+
+
+    <div
+        id="notifications"
+        class="notifications"
+    ></div>
+
+</div>
+
+
+<script>
+
+/* LOAD NOTIFICATIONS */
+
+let notifications =
+    JSON.parse(
+        localStorage.getItem("lingapaiNotifications") || "[]"
+    );
+
+
+const container =
+    document.getElementById("notifications");
+
+
+displayNotifications();
+
+
+/* DISPLAY */
+
+function displayNotifications(){
+
+    container.innerHTML = "";
+
+
+    if(notifications.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    No Notifications
+                </h2>
+
+                <p>
+                    You currently have no notifications.
+                    Updates about your application will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    notifications.forEach(notification => {
+
+        const item =
+            document.createElement("div");
+
+
+        item.className =
+            "notification " +
+            (!notification.read ? "unread" : "");
+
+
+        item.onclick =
+            () => markAsRead(notification.id);
+
+
+        const icon =
+            getIcon(notification.type);
+
+
+        item.innerHTML = `
+
+            <div class="icon">
+                ${icon}
+            </div>
+
+            <div class="notification-content">
+
+                <div class="notification-title">
+                    ${notification.title || "Notification"}
+                </div>
+
+                <div class="notification-message">
+                    ${notification.message || ""}
+                </div>
+
+                <div class="notification-date">
+                    ${formatDate(notification.createdAt)}
+                </div>
+
+            </div>
+
+            ${
+                !notification.read
+                ? `<div class="unread-dot"></div>`
+                : ""
+            }
+
+        `;
+
+
+        container.appendChild(item);
+
+    });
+
+}
+
+
+/* MARK ONE AS READ */
+
+function markAsRead(id){
+
+    const index =
+        notifications.findIndex(
+            notification =>
+            notification.id === id
+        );
+
+
+    if(index === -1){
+        return;
+    }
+
+
+    notifications[index].read =
+        true;
+
+
+    localStorage.setItem(
+        "lingapaiNotifications",
+        JSON.stringify(notifications)
+    );
+
+
+    displayNotifications();
+
+}
+
+
+/* MARK ALL AS READ */
+
+function markAllRead(){
+
+    notifications =
+        notifications.map(
+            notification => {
+
+                return {
+                    ...notification,
+                    read:true
+                };
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "lingapaiNotifications",
+        JSON.stringify(notifications)
+    );
+
+
+    displayNotifications();
+
+}
+
+
+/* ICON */
+
+function getIcon(type){
+
+    switch(type){
+
+        case "schedule":
+            return "📅";
+
+        case "claim":
+            return "✓";
+
+        case "application":
+            return "📋";
+
+        case "status":
+            return "🔔";
+
+        default:
+            return "🔔";
+
+    }
+
+}
+
+
+/* DATE */
+
+function formatDate(date){
+
+    if(!date){
+        return "---";
+    }
+
+
+    const d =
+        new Date(date);
+
+
+    return d.toLocaleDateString(
+        "en-US",
+        {
+            month:"short",
+            day:"numeric",
+            year:"numeric"
+        }
+    ) +
+    " • " +
+    d.toLocaleTimeString(
+        "en-US",
+        {
+            hour:"numeric",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>

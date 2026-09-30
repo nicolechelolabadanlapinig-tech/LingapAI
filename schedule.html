@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule | LingapAI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#F7F5F2;
+    color:#24384A;
+}
+
+.navbar{
+    height:70px;
+    background:#EFEDEA;
+    border-bottom:1px solid #DDD9D5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#183B59;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#4F606C;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:#245B8F;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.header{
+    margin-bottom:25px;
+}
+
+.header h1{
+    color:#183B59;
+    margin-bottom:7px;
+}
+
+.header p{
+    color:#71808A;
+}
+
+.card{
+    background:#EFEDEA;
+    border:1px solid #DDD9D5;
+    border-radius:17px;
+    padding:28px;
+    margin-bottom:20px;
+}
+
+.schedule-header{
+    text-align:center;
+    padding:25px;
+    background:#183B59;
+    color:white;
+    border-radius:13px;
+    margin-bottom:25px;
+}
+
+.schedule-header h2{
+    margin-bottom:7px;
+}
+
+.schedule-header p{
+    color:#DCE7EF;
+    font-size:14px;
+}
+
+.schedule-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.schedule-item{
+    background:#F7F5F2;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+}
+
+.icon{
+    width:45px;
+    height:45px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    background:#F3DCE4;
+    color:#8E4D66;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.label{
+    color:#71808A;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.value{
+    color:#183B59;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.status{
+    display:inline-block;
+    margin-top:20px;
+    padding:8px 15px;
+    border-radius:20px;
+    background:#F3DCE4;
+    color:#8E4D66;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.application-info{
+    margin-top:25px;
+    padding:18px;
+    background:#F7F5F2;
+    border-radius:12px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:11px 0;
+    border-bottom:1px solid #DDD9D5;
+    font-size:14px;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    color:#71808A;
+}
+
+.info-value{
+    font-weight:bold;
+    text-align:right;
+}
+
+.note{
+    margin-top:20px;
+    padding:17px;
+    background:#F3DCE4;
+    border-left:5px solid #D98BA5;
+    border-radius:9px;
+    color:#4F606C;
+    line-height:1.6;
+    font-size:13px;
+}
+
+.empty{
+    text-align:center;
+    padding:50px 25px;
+}
+
+.empty h2{
+    color:#183B59;
+    margin-bottom:10px;
+}
+
+.empty p{
+    color:#71808A;
+    line-height:1.6;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 20px;
+    border-radius:9px;
+    background:#245B8F;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#183B59;
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:10px;
+    }
+
+    .nav-links a:nth-child(n+4){
+        display:none;
+    }
+
+    .schedule-grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .info-row{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .info-value{
+        text-align:left;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        LingapAI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="tracking.html">
+            Tracking
+        </a>
+
+        <a href="notifications.html">
+            Notifications
+        </a>
+
+        <a href="schedule.html">
+            Schedule
+        </a>
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            Assistance Schedule
+        </h1>
+
+        <p>
+            View your scheduled assistance claiming details.
+        </p>
+
+    </div>
+
+
+    <div id="content"></div>
+
+</div>
+
+
+<script>
+
+/* LOAD APPLICATION */
+
+const applications =
+    JSON.parse(
+        localStorage.getItem("lingapaiApplications") || "[]"
+    );
+
+
+const content =
+    document.getElementById("content");
+
+
+if(applications.length === 0){
+
+    showEmpty(
+        "No Application Found",
+        "You do not have an assistance application yet."
+    );
+
+}else{
+
+    const application =
+        applications[applications.length - 1];
+
+
+    if(!application.schedule){
+
+        showEmpty(
+            "No Schedule Available Yet",
+            "Your assistance schedule will appear here once the LGU personnel assigns a claiming schedule."
+        );
+
+    }else{
+
+        displaySchedule(application);
+
+    }
+
+}
+
+
+/* DISPLAY SCHEDULE */
+
+function displaySchedule(application){
+
+    const schedule =
+        application.schedule;
+
+
+    content.innerHTML = `
+
+        <div class="card">
+
+            <div class="schedule-header">
+
+                <h2>
+                    Your Assistance Schedule
+                </h2>
+
+                <p>
+                    Please arrive at the designated location
+                    according to your scheduled time.
+                </p>
+
+                <div class="status">
+                    ${schedule.status || "Scheduled"}
+                </div>
+
+            </div>
+
+
+            <div class="schedule-grid">
+
+
+                <div class="schedule-item">
+
+                    <div class="icon">
+                        📅
+                    </div>
+
+                    <div class="label">
+                        DATE
+                    </div>
+
+                    <div class="value">
+                        ${formatDate(schedule.date)}
+                    </div>
+
+                </div>
+
+
+                <div class="schedule-item">
+
+                    <div class="icon">
+                        🕐
+                    </div>
+
+                    <div class="label">
+                        TIME
+                    </div>
+
+                    <div class="value">
+                        ${formatTime(schedule.time)}
+                    </div>
+
+                </div>
+
+
+                <div class="schedule-item">
+
+                    <div class="icon">
+                        📍
+                    </div>
+
+                    <div class="label">
+                        CLAIMING LOCATION
+                    </div>
+
+                    <div class="value">
+                        ${schedule.location || "---"}
+                    </div>
+
+                </div>
+
+
+                <div class="schedule-item">
+
+                    <div class="icon">
+                        🎫
+                    </div>
+
+                    <div class="label">
+                        APPLICATION ID
+                    </div>
+
+                    <div class="value">
+                        ${application.id || "---"}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="application-info">
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Applicant
+                    </span>
+
+                    <span class="info-value">
+                        ${application.fullName || "---"}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Assistance Type
+                    </span>
+
+                    <span class="info-value">
+                        ${application.assistance || "---"}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Barangay
+                    </span>
+
+                    <span class="info-value">
+                        ${application.barangay || "---"}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Application Status
+                    </span>
+
+                    <span class="info-value">
+                        ${application.status || "Scheduled"}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="note">
+
+                <strong>Reminder:</strong><br>
+
+                Please bring your valid Solo Parent ID and
+                present your LingapAI QR code when claiming
+                your assistance.
+
+            </div>
+
+        </div>
+
+
+        <div style="text-align:center;">
+
+            <a
+                href="qr.html"
+                class="back-btn"
+            >
+                View Claim QR Code
+            </a>
+
+        </div>
+
+    `;
+
+}
+
+
+/* EMPTY STATE */
+
+function showEmpty(title,message){
+
+    content.innerHTML = `
+
+        <div class="card">
+
+            <div class="empty">
+
+                <h2>
+                    ${title}
+                </h2>
+
+                <p>
+                    ${message}
+                </p>
+
+                <a
+                    href="dashboard.html"
+                    class="back-btn"
+                >
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* DATE */
+
+function formatDate(date){
+
+    if(!date){
+        return "---";
+    }
+
+    return new Date(
+        date + "T00:00:00"
+    ).toLocaleDateString(
+        "en-US",
+        {
+            weekday:"long",
+            month:"long",
+            day:"numeric",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* TIME */
+
+function formatTime(time){
+
+    if(!time){
+        return "---";
+    }
+
+    const parts =
+        time.split(":");
+
+
+    const d =
+        new Date();
+
+
+    d.setHours(
+        Number(parts[0]),
+        Number(parts[1])
+    );
+
+
+    return d.toLocaleTimeString(
+        "en-US",
+        {
+            hour:"numeric",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>
